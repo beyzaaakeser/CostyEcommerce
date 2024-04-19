@@ -7,6 +7,7 @@
   text-decoration: none;
   list-style: none;
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 /* Variables */
 :root {
@@ -72,6 +73,7 @@ header {
   font-size: 1.8rem;
   color: var(--main-color);
   cursor: pointer;
+  padding-right: 30px;
 }
 #cart-icon[data-quantity="0"]::after {
   content: "";
@@ -80,7 +82,7 @@ header {
   content: attr(data-quantity);
   position: absolute;
   top: 0;
-  right: -11px;
+  right:21px;
   background-color: var(--main-color);
   width: 20px;
   height: 20px;
@@ -91,6 +93,7 @@ header {
   justify-content: center;
   align-items: center;
   font-weight: 500;
+
 }
 .home {
   position: relative;
@@ -137,6 +140,14 @@ header {
   display: flex;
   flex-direction: column;
 }
+
+.product-info h2 {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+}
+
 .product-img {
   width: 100%;
   height: 350px;
@@ -249,6 +260,7 @@ header {
   height: 80px;
   object-fit: cover;
   object-position: center;
+  box-shadow: 0 0 5px lightgray;
 }
 .cart-item-title {
   font-size: 18px;
@@ -277,6 +289,9 @@ header {
 .cart-t {
   display: flex;
   flex-direction: column;
+/*  align-items: center;
+  justify-content: center;
+*/  
 }
 #cartTotal {
   font-size: 32px;
