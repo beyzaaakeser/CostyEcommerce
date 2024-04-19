@@ -264,6 +264,11 @@ header {
 }
 .cart-item-title {
   font-size: 18px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  
 }
 .cart-item-quantity {
   border: 1px solid var(--text-color);

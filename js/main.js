@@ -124,18 +124,53 @@ function addToCart(event){
             console.log(cart)   
         }
     }
-
+    updateCartIcon();
     saveToLocalStorage();
+    renderCartItems();
+    calculateCartTotal();
 }  
 
+// localStorage'a veri eklemek icin kullandik
 function saveToLocalStorage(){
     localStorage.setItem("cart",JSON.stringify(cart))
+}
+
+// cart dizisinden ve localstoragedan silmek istedigimiz urunu sildik ve sayfayi guncelledik
+function removeFromCart(event){
+    const productID =  parseInt(event.target.dataset.id);
+    console.log(cart);
+    // cart dizisinden silmek istedigimiz urunu idsine gore cart dizisinden sildik
+    cart = cart.filter((item) => item.id !== productID);
+    // tekrardan localstorage'i guncelledik ve sayfa guncellendi
+    saveToLocalStorage();
+    renderCartItems();
+    // sepetteki toplam fiyati gunceller
+    calculateCartTotal();
+    // toplam miktari gunceller
+    updateCartIcon();
+
+}
+
+
+// inputun icindeki miktar degisince calisacak fonksiyon
+function quantityChanged(event){
+    const productID = parseInt(event.target.dataset.id);
+    const quantity = parseInt(event.target.value);
+
+    if(quantity>0){
+        const cartItem = cart.find((item) => item.id === productID);
+        if(cartItem){
+            cartItem.quantity = quantity;
+            saveToLocalStorage();
+            calculateCartTotal();
+            updateCartIcon();
+        }
+    }
 }
 
 // sepete ekledigimiz urunleri listeleme
 function renderCartItems(){
 
-    console.log("selam");
     cartItemsElement.innerHTML = cart
       .map(
         (item) =>
@@ -163,10 +198,46 @@ function renderCartItems(){
       )
       .join("");
 
+     const removeButtons =  document.getElementsByClassName("remove-from-cart");
+     for(let i = 0; i < removeButtons.length; i++){
+        const removebutton = removeButtons[i];
+        removebutton.addEventListener("click", removeFromCart);
+     }
+     
+     const quantityInputs = document.getElementsByClassName("cart-item-quantity");
+     for(let i = 0; i < quantityInputs.length; i++){
+        const quantityInput = quantityInputs[i];
+        quantityInput.addEventListener("change", quantityChanged);
+     }
 }
+
+
+// sepetteki toplam fiyati hesaplar
+function calculateCartTotal(){
+    // reduce --> bizden 2 parametre ister 1.si icerisinde yapacagimiz islem yani callback function 2.si ise baslangic degeri ister ve tek toplam sonuc verir. 
+    const total = cart.reduce((sum,item) => sum + item.price * item.quantity, 0)
+    cartTotalElement.textContent = `Total Price: $${total.toFixed(2)}`
+}
+
 
 if(window.location.pathname.includes("cart.html")){
     renderCartItems();
+    calculateCartTotal();
 }else{
     renderProducts();
 }
+
+window.addEventListener("storage",updateCartIconOnCartChange)
+function updateCartIconOnCartChange(){
+    updateCartIcon();
+}
+
+const cartIcon = document.getElementById("cart-icon");
+function updateCartIcon(){
+    const totalQuantity = cart.reduce((sum,item) => sum + item.quantity,0);
+    cartIcon.setAttribute("data-quantity",totalQuantity);
+}
+
+
+updateCartIcon();
+calculateCartTotal();
