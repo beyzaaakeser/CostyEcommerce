@@ -8,6 +8,8 @@
   list-style: none;
   scroll-behavior: smooth;
   overflow-x: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 /* Variables */
 :root {
