@@ -79,9 +79,6 @@ header {
   cursor: pointer;
   padding-right: 30px;
 }
-#cart-icon[data-quantity="0"]::after {
-  content: "";
-}
 
 .bx-shopping-bag{
   position: relative;
@@ -104,6 +101,10 @@ header {
   align-items: center;
   font-weight: 500;
 
+}
+
+#cart-icon[data-quantity="0"]::after {
+  content: "";
 }
 .home {
   position: relative;

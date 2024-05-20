@@ -104,6 +104,7 @@ function addToCart(event) {
     // sepette tikladigimiz urun varsa urunun miktarini artirir
     if (existingItem) {
       existingItem.quantity++;
+      updateCartIcon()
     } else {
       // sepette tikladigimiz urun yoksa urunu sepete ekler
       const cartItem = {
@@ -116,6 +117,7 @@ function addToCart(event) {
       // yeni olusturdugumuz urunu cart dizisine ekleriz
       cart.push(cartItem);
       console.log(cart);
+      updateCartIcon();
     }
   }
   updateCartIcon();
@@ -200,6 +202,8 @@ function renderCartItems() {
     const quantityInput = quantityInputs[i];
     quantityInput.addEventListener('change', quantityChanged);
   }
+
+  updateCartIcon()
 }
 
 // sepetteki toplam fiyati hesaplar
@@ -228,5 +232,9 @@ function updateCartIcon() {
   i.setAttribute('data-quantity', totalQuantity);
 }
 
+function updateCartIconOnCartChange(){
+  updateCartIcon();
+}
+window.addEventListener("storage", updateCartIconOnCartChange())
 updateCartIcon();
 calculateCartTotal();
