@@ -1,69 +1,67 @@
-const productList = document.getElementById("productList");
-const cartItemsElement = document.getElementById("cartItems");
-const cartTotalElement = document.getElementById("cartTotal");
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
-
+const productList = document.getElementById('productList');
+const cartItemsElement = document.getElementById('cartItems');
+const cartTotalElement = document.getElementById('cartTotal');
+let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
 // Ürünler
 const products = [
   {
     id: 1,
-    title: "Autumn Hoodie",
+    title: 'Autumn Hoodie',
     price: 264.9,
     image:
-      "https://pangaia.com/cdn/shop/products/Recycled-Nylon-NW-Flwrdwn-Quilted-Collarless-Jacket-Cerulean-Blue-Female-1_bf4b2a54-8a7f-4174-bc49-8ef22b24bfdd.jpg?v=1666708230&width=1426",
+      'https://pangaia.com/cdn/shop/products/Recycled-Nylon-NW-Flwrdwn-Quilted-Collarless-Jacket-Cerulean-Blue-Female-1_bf4b2a54-8a7f-4174-bc49-8ef22b24bfdd.jpg?v=1666708230&width=1426',
   },
   {
     id: 2,
-    title: "FUSION HOODIE",
+    title: 'FUSION HOODIE',
     price: 295,
     image:
-      "https://images.undiz.com/on/demandware.static/-/Sites-ZLIN-master/default/dw2264d914/merch/BTS/654206666_x.jpg?sw=1250",
+      'https://images.undiz.com/on/demandware.static/-/Sites-ZLIN-master/default/dw2264d914/merch/BTS/654206666_x.jpg?sw=1250',
   },
   {
     id: 3,
-    title: "Chestnut Brown",
+    title: 'Chestnut Brown',
     price: 74.9,
     image:
-      "https://pangaia.com/cdn/shop/products/Recycled-Cashmere-Core-Hoodie-Chestnut-Brown-Male-1.jpg?v=1663947464&width=1426",
+      'https://pangaia.com/cdn/shop/products/Recycled-Cashmere-Core-Hoodie-Chestnut-Brown-Male-1.jpg?v=1663947464&width=1426',
   },
   {
     id: 4,
-    title: "Nike Sportswear",
+    title: 'Nike Sportswear',
     price: 80,
     image:
-      "https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/61734ec7-dad8-40f3-9b95-c7500939150a/sportswear-club-mens-french-terry-crew-neck-sweatshirt-tdFDRc.png",
+      'https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/61734ec7-dad8-40f3-9b95-c7500939150a/sportswear-club-mens-french-terry-crew-neck-sweatshirt-tdFDRc.png',
   },
   {
     id: 5,
-    title: "Champion BASIC",
+    title: 'Champion BASIC',
     price: 48.99,
     image:
-      "https://img01.ztat.net/article/spp-media-p1/7067458719b744fe81ffee62d3d0b912/abad421e7d8e47f08a2abc1c6ffe07dc.jpg?imwidth=1800",
+      'https://img01.ztat.net/article/spp-media-p1/7067458719b744fe81ffee62d3d0b912/abad421e7d8e47f08a2abc1c6ffe07dc.jpg?imwidth=1800',
   },
   {
     id: 6,
-    title: "Cotton Hoodie",
+    title: 'Cotton Hoodie',
     price: 395,
     image:
-      "https://pangaia.com/cdn/shop/files/Reclaim-3.0-Hoodie-Reclaim-Jade-Womens-3.jpg?v=1693398673&width=1426",
+      'https://pangaia.com/cdn/shop/files/Reclaim-3.0-Hoodie-Reclaim-Jade-Womens-3.jpg?v=1693398673&width=1426',
   },
   {
     id: 7,
-    title: "CLASSIC CREWNECK",
+    title: 'CLASSIC CREWNECK',
     price: 48.99,
     image:
-      "https://img01.ztat.net/article/spp-media-p1/10cea44041564f81ac585fc6c8978907/c4c32dbc45dd4dbc9d15087c846538f2.jpg?imwidth=1800",
+      'https://img01.ztat.net/article/spp-media-p1/10cea44041564f81ac585fc6c8978907/c4c32dbc45dd4dbc9d15087c846538f2.jpg?imwidth=1800',
   },
   {
     id: 8,
-    title: "TAPE HOODED",
+    title: 'TAPE HOODED',
     price: 79.99,
     image:
-      "https://img01.ztat.net/article/spp-media-p1/d391f90be278469ebfdff731800cfccc/6d2101bd672f4e059501f01fe726f315.jpg?imwidth=1800",
+      'https://img01.ztat.net/article/spp-media-p1/d391f90be278469ebfdff731800cfccc/6d2101bd672f4e059501f01fe726f315.jpg?imwidth=1800',
   },
 ];
-
 
 // Ürünleri ekrana renderlayacak fonksiyon
 function renderProducts() {
@@ -84,97 +82,90 @@ function renderProducts() {
     </div>
     `
     )
-    .join("");
+    .join('');
 
-    const addToCartButtons = document.getElementsByClassName("add-to-cart");    
-    for(let i = 0 ; i<addToCartButtons.length; i++){
-       const addToCartButton = addToCartButtons[i];
-       addToCartButton.addEventListener("click",addToCart)
-    }
-    
-  
-      
+  const addToCartButtons = document.getElementsByClassName('add-to-cart');
+  for (let i = 0; i < addToCartButtons.length; i++) {
+    const addToCartButton = addToCartButtons[i];
+    addToCartButton.addEventListener('click', addToCart);
+  }
 }
 
-
 // sepete urun ekleme islemi
-function addToCart(event){
-    // sepete ekle butonuna tikladigimizda sepete ekleyecegimiz urunun idsine erisme
-    const productID = parseInt(event.target.dataset.id);
-    // dizinin icerisinden tikladigimiz idli elemani bulmak icin find methodunu kullandik
-    const product = products.find((product) => product.id === productID)
-    
-    if(product){
-        // sepete tikladigimiz urun onceden sepette var mi yok mu kontrolu
-        const existingItem = cart.find((item) => item.id === productID)
-        // sepette tikladigimiz urun varsa urunun miktarini artirir
-        if(existingItem){
-            existingItem.quantity++;
-        }else{
-              // sepette tikladigimiz urun yoksa urunu sepete ekler
-            const cartItem = {
-                id: product.id,
-                title: product.title,
-                price: product.price,
-                image:product.image,
-                quantity: 1,
-            };
-            // yeni olusturdugumuz urunu cart dizisine ekleriz
-            cart.push(cartItem);
-            console.log(cart)   
-        }
+function addToCart(event) {
+  // sepete ekle butonuna tikladigimizda sepete ekleyecegimiz urunun idsine erisme
+  const productID = parseInt(event.target.dataset.id);
+  // dizinin icerisinden tikladigimiz idli elemani bulmak icin find methodunu kullandik
+  const product = products.find((product) => product.id === productID);
+
+  if (product) {
+    // sepete tikladigimiz urun onceden sepette var mi yok mu kontrolu
+    const existingItem = cart.find((item) => item.id === productID);
+    // sepette tikladigimiz urun varsa urunun miktarini artirir
+    if (existingItem) {
+      existingItem.quantity++;
+    } else {
+      // sepette tikladigimiz urun yoksa urunu sepete ekler
+      const cartItem = {
+        id: product.id,
+        title: product.title,
+        price: product.price,
+        image: product.image,
+        quantity: 1,
+      };
+      // yeni olusturdugumuz urunu cart dizisine ekleriz
+      cart.push(cartItem);
+      console.log(cart);
     }
-    updateCartIcon();
-    saveToLocalStorage();
-    renderCartItems();
-    calculateCartTotal();
-}  
+  }
+  updateCartIcon();
+  saveToLocalStorage();
+  renderCartItems();
+  calculateCartTotal();
+}
 
 // localStorage'a veri eklemek icin kullandik
-function saveToLocalStorage(){
-    localStorage.setItem("cart",JSON.stringify(cart))
+function saveToLocalStorage() {
+  localStorage.setItem('cart', JSON.stringify(cart));
 }
 
 // cart dizisinden ve localstoragedan silmek istedigimiz urunu sildik ve sayfayi guncelledik
-function removeFromCart(event){
-    const productID =  parseInt(event.target.dataset.id);
-    console.log(cart);
-    // cart dizisinden silmek istedigimiz urunu idsine gore cart dizisinden sildik
-    cart = cart.filter((item) => item.id !== productID);
-    // tekrardan localstorage'i guncelledik ve sayfa guncellendi
-    saveToLocalStorage();
-    renderCartItems();
-    // sepetteki toplam fiyati gunceller
-    calculateCartTotal();
-    // toplam miktari gunceller
-    updateCartIcon();
-
+function removeFromCart(event) {
+  const productID = parseInt(event.target.dataset.id);
+  console.log(cart);
+  // cart dizisinden silmek istedigimiz urunu idsine gore cart dizisinden sildik
+  cart = cart.filter((item) => item.id !== productID);
+  // tekrardan localstorage'i guncelledik ve sayfa guncellendi
+  saveToLocalStorage();
+  renderCartItems();
+  // sepetteki toplam fiyati gunceller
+  calculateCartTotal();
+  // toplam miktari gunceller
+  updateCartIcon();
 }
 
-
 // inputun icindeki miktar degisince calisacak fonksiyon
-function quantityChanged(event){
-    const productID = parseInt(event.target.dataset.id);
-    const quantity = parseInt(event.target.value);
+function quantityChanged(event) {
+  const productID = parseInt(event.target.dataset.id);
+  const quantity = parseInt(event.target.value);
 
-    if(quantity>0){
-        const cartItem = cart.find((item) => item.id === productID);
-        if(cartItem){
-            cartItem.quantity = quantity;
-            saveToLocalStorage();
-            calculateCartTotal();
-            updateCartIcon();
-        }
+  if (quantity > 0) {
+    const cartItem = cart.find((item) => item.id === productID);
+    if (cartItem) {
+      cartItem.quantity = quantity;
+      saveToLocalStorage();
+      calculateCartTotal();
+      updateCartIcon();
     }
+  }
 }
 
 // sepete ekledigimiz urunleri listeleme
-function renderCartItems(){
-
-    cartItemsElement.innerHTML = cart
-      .map(
-        (item) =>
-          `
+function renderCartItems() {
+  cartItemsElement.innerHTML = cart
+    .map(
+      (item) =>
+        `
       <div class="cart-item">
           <img
           src="${item.image}"
@@ -195,49 +186,47 @@ function renderCartItems(){
       </div>
   
       `
-      )
-      .join("");
+    )
+    .join('');
 
-     const removeButtons =  document.getElementsByClassName("remove-from-cart");
-     for(let i = 0; i < removeButtons.length; i++){
-        const removebutton = removeButtons[i];
-        removebutton.addEventListener("click", removeFromCart);
-     }
-     
-     const quantityInputs = document.getElementsByClassName("cart-item-quantity");
-     for(let i = 0; i < quantityInputs.length; i++){
-        const quantityInput = quantityInputs[i];
-        quantityInput.addEventListener("change", quantityChanged);
-     }
+  const removeButtons = document.getElementsByClassName('remove-from-cart');
+  for (let i = 0; i < removeButtons.length; i++) {
+    const removebutton = removeButtons[i];
+    removebutton.addEventListener('click', removeFromCart);
+  }
+
+  const quantityInputs = document.getElementsByClassName('cart-item-quantity');
+  for (let i = 0; i < quantityInputs.length; i++) {
+    const quantityInput = quantityInputs[i];
+    quantityInput.addEventListener('change', quantityChanged);
+  }
 }
-
 
 // sepetteki toplam fiyati hesaplar
-function calculateCartTotal(){
-    // reduce --> bizden 2 parametre ister 1.si icerisinde yapacagimiz islem yani callback function 2.si ise baslangic degeri ister ve tek toplam sonuc verir. 
-    const total = cart.reduce((sum,item) => sum + item.price * item.quantity, 0)
-    cartTotalElement.textContent = `Total Price: $${total.toFixed(2)}`
+function calculateCartTotal() {
+  // reduce --> bizden 2 parametre ister 1.si icerisinde yapacagimiz islem yani callback function 2.si ise baslangic degeri ister ve tek toplam sonuc verir.
+  const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  cartTotalElement.textContent = `Total Price: $${total.toFixed(2)}`;
 }
 
-
-if(window.location.pathname.includes("cart.html")){
-    renderCartItems();
-    calculateCartTotal();
-}else{
-    renderProducts();
+if (window.location.pathname.includes('cart.html')) {
+  renderCartItems();
+  calculateCartTotal();
+} else {
+  renderProducts();
 }
 
-window.addEventListener("storage",updateCartIconOnCartChange)
-function updateCartIconOnCartChange(){
-    updateCartIcon();
+window.addEventListener('storage', updateCartIconOnCartChange);
+function updateCartIconOnCartChange() {
+  updateCartIcon();
 }
 
-const cartIcon = document.getElementById("cart-icon");
-function updateCartIcon(){
-    const totalQuantity = cart.reduce((sum,item) => sum + item.quantity,0);
-    cartIcon.setAttribute("data-quantity",totalQuantity);
+function updateCartIcon() {
+  const cartIcon = document.getElementById('cart-icon');
+  const i = document.querySelector(".bx-shopping-bag")
+  const totalQuantity = cart.reduce((sum, item) => sum + item.quantity, 0);
+  i.setAttribute('data-quantity', totalQuantity);
 }
-
 
 updateCartIcon();
 calculateCartTotal();

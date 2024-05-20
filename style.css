@@ -72,6 +72,8 @@ header {
 }
 #cart-icon {
   position: relative;
+  display: flex;
+  align-items: center;
   font-size: 1.8rem;
   color: var(--main-color);
   cursor: pointer;
@@ -80,11 +82,17 @@ header {
 #cart-icon[data-quantity="0"]::after {
   content: "";
 }
-#cart-icon[data-quantity="0"]::after {
+
+.bx-shopping-bag{
+  position: relative;
+  font-size: 1.8rem;
+
+}
+.bx-shopping-bag::after {
   content: attr(data-quantity);
   position: absolute;
   top: 0;
-  right:21px;
+  left:8px;
   background-color: var(--main-color);
   width: 20px;
   height: 20px;
@@ -117,7 +125,7 @@ header {
 }
 .home-img::before {
   content: "Coloring Style";
-  font-size: 9rem;
+  font-size: clamp(3rem,10vw,9rem);
   font-weight: 900;
   position: absolute;
   text-transform: uppercase;
@@ -182,12 +190,13 @@ header {
 }
 .footer-c {
   display: grid;
-  grid-template-columns: 60% 20% 20%;
-  gap: 16px;
+  grid-template-columns: 60% 40%;
+  gap: 40px;
 }
 
 .footer-box {
   display: flex;
+  flex: 1;
   flex-direction: column;
 }
 .footer-box h2 {
@@ -211,11 +220,19 @@ header {
   color: var(--bg-color);
   text-transform: uppercase;
 }
-.footer-box a {
+.footer-right .footer-box a {
   color: var(--bg-color);
   text-transform: uppercase;
-  padding-top: 30px;
+  padding-top: 15px;
 }
+
+.footer-right{
+  display: flex;
+  justify-content: space-between;
+  flex: 1;
+}
+
+
 .copyright {
   color: var(--bg-color);
   text-transform: uppercase;
@@ -296,9 +313,6 @@ header {
 .cart-t {
   display: flex;
   flex-direction: column;
-/*  align-items: center;
-  justify-content: center;
-*/  
 }
 #cartTotal {
   font-size: 32px;
@@ -315,7 +329,6 @@ header {
   max-width: 150px;
 }
 
-/* Responsive  */
 
 @media (max-width: 1200px) {
   .container {
@@ -324,6 +337,7 @@ header {
   }
   .home-img::before {
     font-size: 8rem;
+    padding-top: 30px;
     top: -35px;
   }
   .product-container {
@@ -336,6 +350,7 @@ header {
   }
   .home-img::before {
     font-size: 6rem;
+    padding-top: 30px;
     top: -35px;
   }
   .product-container {
@@ -347,7 +362,8 @@ header {
     min-height: 620px;
   }
   .home-img::before {
-    font-size: 5rem;
+    font-size: 4rem;
+    padding-top: 30px;
   }
   .cart-box {
     grid-template-columns: 1fr;
@@ -356,6 +372,7 @@ header {
   .footer-c {
     grid-template-columns: 1fr;
   }
+
 }
 @media (max-width: 550px) {
   #menu-icon {
